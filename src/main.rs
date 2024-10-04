@@ -1,6 +1,7 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")] // Hide console window on Windows in release
 
 mod app;
+mod web;
 
 use eframe::web_sys;
 // #[cfg(target_arch = "wasm32")]
