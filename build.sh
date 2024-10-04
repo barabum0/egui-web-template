@@ -16,7 +16,7 @@ echo "=== Creating the output directory ==="
 mkdir -p ${OUTPUT_DIR}
 
 echo "=== Generating JavaScript bindings with wasm-bindgen ==="
-wasm-bindgen --out-dir ${OUTPUT_DIR} --target web target/wasm32-unknown-unknown/release/${APP_NAME}.wasm
+wasm-bindgen --out-dir ${OUTPUT_DIR} --no-modules --no-typescript target/wasm32-unknown-unknown/release/${APP_NAME}.wasm
 
 echo "=== Copying index.html to the output directory ==="
 cp index.html ${OUTPUT_DIR}
