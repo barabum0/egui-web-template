@@ -1,0 +1,9 @@
+[package]
+name = "my-egui-web-app"
+version = "0.1.0"
+authors = ["Roman Poltorabatko <barabum@duck,com>"]
+edition = "2021"
+
+[dependencies]
+eframe = "0.29.1"
+egui = "0.29.1"
