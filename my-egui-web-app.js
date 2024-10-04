@@ -1,8 +1,15 @@
-let wasm;
+let wasm_bindgen;
+(function() {
+    const __exports = {};
+    let script_src;
+    if (typeof document !== 'undefined' && document.currentScript !== null) {
+        script_src = new URL(document.currentScript.src, location.href).toString();
+    }
+    let wasm = undefined;
 
-const heap = new Array(128).fill(undefined);
+    const heap = new Array(128).fill(undefined);
 
-heap.push(undefined, null, true, false);
+    heap.push(undefined, null, true, false);
 
 function getObject(idx) { return heap[idx]; }
 
@@ -240,6 +247,106 @@ function handleError(f, args) {
         wasm.__wbindgen_exn_store(addHeapObject(e));
     }
 }
+function __wbg_adapter_548(arg0, arg1, arg2, arg3) {
+    wasm.wasm_bindgen__convert__closures__invoke2_mut__h9466beb35477594b(arg0, arg1, addHeapObject(arg2), addHeapObject(arg3));
+}
+
+const WebHandleFinalization = (typeof FinalizationRegistry === 'undefined')
+    ? { register: () => {}, unregister: () => {} }
+    : new FinalizationRegistry(ptr => wasm.__wbg_webhandle_free(ptr >>> 0, 1));
+/**
+* Our handle to the web app from JavaScript.
+*/
+class WebHandle {
+
+    __destroy_into_raw() {
+        const ptr = this.__wbg_ptr;
+        this.__wbg_ptr = 0;
+        WebHandleFinalization.unregister(this);
+        return ptr;
+    }
+
+    free() {
+        const ptr = this.__destroy_into_raw();
+        wasm.__wbg_webhandle_free(ptr, 0);
+    }
+    /**
+    * Installs a panic hook, then returns.
+    */
+    constructor() {
+        const ret = wasm.webhandle_new();
+        this.__wbg_ptr = ret >>> 0;
+        WebHandleFinalization.register(this, this.__wbg_ptr, this);
+        return this;
+    }
+    /**
+    * Call this once from JavaScript to start your app.
+    * @param {HTMLCanvasElement} canvas
+    * @returns {Promise<void>}
+    */
+    start(canvas) {
+        const ret = wasm.webhandle_start(this.__wbg_ptr, addHeapObject(canvas));
+        return takeObject(ret);
+    }
+    /**
+    */
+    destroy() {
+        wasm.webhandle_destroy(this.__wbg_ptr);
+    }
+    /**
+    * Example on how to call into your app from JavaScript.
+    */
+    example() {
+        wasm.webhandle_example(this.__wbg_ptr);
+    }
+    /**
+    * The JavaScript can check whether or not your app has crashed:
+    * @returns {boolean}
+    */
+    has_panicked() {
+        const ret = wasm.webhandle_has_panicked(this.__wbg_ptr);
+        return ret !== 0;
+    }
+    /**
+    * @returns {string | undefined}
+    */
+    panic_message() {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            wasm.webhandle_panic_message(retptr, this.__wbg_ptr);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            let v1;
+            if (r0 !== 0) {
+                v1 = getStringFromWasm0(r0, r1).slice();
+                wasm.__wbindgen_free(r0, r1 * 1, 1);
+            }
+            return v1;
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+        }
+    }
+    /**
+    * @returns {string | undefined}
+    */
+    panic_callstack() {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            wasm.webhandle_panic_callstack(retptr, this.__wbg_ptr);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            let v1;
+            if (r0 !== 0) {
+                v1 = getStringFromWasm0(r0, r1).slice();
+                wasm.__wbindgen_free(r0, r1 * 1, 1);
+            }
+            return v1;
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+        }
+    }
+}
+__exports.WebHandle = WebHandle;
 
 async function __wbg_load(module, imports) {
     if (typeof Response === 'function' && module instanceof Response) {
@@ -1367,9 +1474,31 @@ function __wbg_get_imports() {
         const ret = getObject(arg0).at(arg1);
         return addHeapObject(ret);
     };
+    imports.wbg.__wbg_call_89af060b4e1523f2 = function() { return handleError(function (arg0, arg1, arg2) {
+        const ret = getObject(arg0).call(getObject(arg1), getObject(arg2));
+        return addHeapObject(ret);
+    }, arguments) };
     imports.wbg.__wbg_is_009b1ef508712fda = function(arg0, arg1) {
         const ret = Object.is(getObject(arg0), getObject(arg1));
         return ret;
+    };
+    imports.wbg.__wbg_new_b85e72ed1bfd57f9 = function(arg0, arg1) {
+        try {
+            var state0 = {a: arg0, b: arg1};
+            var cb0 = (arg0, arg1) => {
+                const a = state0.a;
+                state0.a = 0;
+                try {
+                    return __wbg_adapter_548(a, state0.b, arg0, arg1);
+                } finally {
+                    state0.a = a;
+                }
+            };
+            const ret = new Promise(cb0);
+            return addHeapObject(ret);
+        } finally {
+            state0.a = state0.b = 0;
+        }
     };
     imports.wbg.__wbg_resolve_570458cb99d56a43 = function(arg0) {
         const ret = Promise.resolve(getObject(arg0));
@@ -1440,20 +1569,20 @@ function __wbg_get_imports() {
         const ret = wasm.memory;
         return addHeapObject(ret);
     };
-    imports.wbg.__wbindgen_closure_wrapper604 = function(arg0, arg1, arg2) {
-        const ret = makeMutClosure(arg0, arg1, 128, __wbg_adapter_28);
+    imports.wbg.__wbindgen_closure_wrapper647 = function(arg0, arg1, arg2) {
+        const ret = makeMutClosure(arg0, arg1, 145, __wbg_adapter_28);
         return addHeapObject(ret);
     };
-    imports.wbg.__wbindgen_closure_wrapper606 = function(arg0, arg1, arg2) {
-        const ret = makeMutClosure(arg0, arg1, 128, __wbg_adapter_28);
+    imports.wbg.__wbindgen_closure_wrapper649 = function(arg0, arg1, arg2) {
+        const ret = makeMutClosure(arg0, arg1, 145, __wbg_adapter_28);
         return addHeapObject(ret);
     };
-    imports.wbg.__wbindgen_closure_wrapper608 = function(arg0, arg1, arg2) {
-        const ret = makeMutClosure(arg0, arg1, 128, __wbg_adapter_33);
+    imports.wbg.__wbindgen_closure_wrapper651 = function(arg0, arg1, arg2) {
+        const ret = makeMutClosure(arg0, arg1, 145, __wbg_adapter_33);
         return addHeapObject(ret);
     };
-    imports.wbg.__wbindgen_closure_wrapper688 = function(arg0, arg1, arg2) {
-        const ret = makeMutClosure(arg0, arg1, 169, __wbg_adapter_36);
+    imports.wbg.__wbindgen_closure_wrapper731 = function(arg0, arg1, arg2) {
+        const ret = makeMutClosure(arg0, arg1, 186, __wbg_adapter_36);
         return addHeapObject(ret);
     };
 
@@ -1506,8 +1635,8 @@ async function __wbg_init(module_or_path) {
     else
     console.warn('using deprecated parameters for the initialization function; pass a single object instead')
 
-    if (typeof module_or_path === 'undefined') {
-        module_or_path = new URL('my-egui-web-app_bg.wasm', import.meta.url);
+    if (typeof module_or_path === 'undefined' && typeof script_src !== 'undefined') {
+        module_or_path = script_src.replace(/\.js$/, '_bg.wasm');
     }
     const imports = __wbg_get_imports();
 
@@ -1522,5 +1651,6 @@ async function __wbg_init(module_or_path) {
     return __wbg_finalize_init(instance, module);
 }
 
-export { initSync };
-export default __wbg_init;
+wasm_bindgen = Object.assign(__wbg_init, { initSync }, __exports);
+
+})();
