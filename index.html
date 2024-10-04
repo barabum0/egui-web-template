@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Egui Web App</title>
+    <style>
+        html, body { margin: 0; height: 100%; }
+        body { overflow: hidden; }
+        #the_canvas_id { width: 100%; height: 100%; }
+    </style>
+</head>
+<body>
+    <canvas id="the_canvas_id"></canvas>
+    <script type="module">
+        import init from './my-egui-web-app.js';
+        init();
+    </script>
+</body>
+</html>
