@@ -1,3 +1,14 @@
+```
+                                             __        
+                      __                    /\ \       
+   __     __   __  __/\_\  __  __  __     __\ \ \____  
+ /'__`\ /'_ `\/\ \/\ \/\ \/\ \/\ \/\ \  /'__`\ \ '__`\ 
+/\  __//\ \L\ \ \ \_\ \ \ \ \ \_/ \_/ \/\  __/\ \ \L\ \
+\ \____\ \____ \ \____/\ \_\ \___x___/'\ \____\\ \_,__/
+ \/____/\/___L\ \/___/  \/_/\/__//__/   \/____/ \/___/ 
+          /\____/                                      
+          \_/__/    
+```
 # Rust WebAssembly Template with egui
 
 This repository is a template for creating web applications using Rust, egui, and eframe. It allows you to write your application in Rust and compile it to WebAssembly for deployment on the web.
