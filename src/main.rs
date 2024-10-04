@@ -3,8 +3,8 @@
 mod app;
 
 use eframe::web_sys;
-#[cfg(target_arch = "wasm32")]
-use wasm_bindgen::prelude::*;
+// #[cfg(target_arch = "wasm32")]
+// use wasm_bindgen::prelude::*;
 
 #[cfg(not(target_arch = "wasm32"))]
 fn main() {
@@ -42,7 +42,7 @@ fn main() {
             .start(
                 canvas,
                 web_options,
-                Box::new(|cc| Ok(Box::new(app::MyApp::default()))),
+                Box::new(|_cc| Ok(Box::new(app::MyApp::default()))),
             )
             .await;
 
