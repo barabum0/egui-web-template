@@ -1,21 +1,4 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>My Egui Web App</title>
-    <style>
-        html, body { margin: 0; height: 100%; }
-        body { overflow: hidden; }
-        #the_canvas_id { width: 100%; height: 100%; }
-    </style>
-</head>
-<body>
-    <canvas id="the_canvas_id"></canvas>
-
-</body>
-</html>
-
-<!DOCTYPE html>
 <html>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
@@ -132,7 +115,7 @@
         // Here we tell bindgen the path to the wasm file so it can start
         // initialization and return to us a promise when it's done.
         console.debug("Loading wasm…");
-        wasm_bindgen("./egui_demo_app_bg.wasm")
+        wasm_bindgen("./my-egui-web-app_bg.wasm")
             .then(on_wasm_loaded)
             .catch(on_error);
 
