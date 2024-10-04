@@ -1,24 +1,10 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")] // Hide console window on Windows in release
 
+mod app;
+
 use eframe::web_sys;
 #[cfg(target_arch = "wasm32")]
 use wasm_bindgen::prelude::*;
-
-struct MyApp;
-
-impl Default for MyApp {
-    fn default() -> Self {
-        Self
-    }
-}
-
-impl eframe::App for MyApp {
-    fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
-        egui::CentralPanel::default().show(ctx, |ui| {
-            ui.heading("Hello, egui on the web!");
-        });
-    }
-}
 
 #[cfg(not(target_arch = "wasm32"))]
 fn main() {
@@ -56,7 +42,7 @@ fn main() {
             .start(
                 canvas,
                 web_options,
-                Box::new(|cc| Ok(Box::new(MyApp::default()))),
+                Box::new(|cc| Ok(Box::new(app::MyApp::default()))),
             )
             .await;
 
