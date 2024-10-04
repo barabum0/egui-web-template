@@ -7,3 +7,6 @@ edition = "2021"
 [dependencies]
 eframe = "0.29.1"
 egui = "0.29.1"
+wasm-bindgen = "0.2.93"
+wasm-bindgen-futures = "0.4.43"
+log = "0.4.22"
